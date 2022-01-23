@@ -17,95 +17,95 @@ const io = socketIO(server);
 
 app.use(express.json());
 app.use(express.urlencoded({
-  extended: true
+    extended: true
 }));
 app.use(fileUpload({
-  debug: true
+    debug: true
 }));
 
 const SESSION_FILE_PATH = './whatsapp-session.json';
 let sessionCfg;
 if (fs.existsSync(SESSION_FILE_PATH)) {
-  sessionCfg = require(SESSION_FILE_PATH);
+    sessionCfg = require(SESSION_FILE_PATH);
 }
 
 app.get('/', (req, res) => {
-  res.sendFile('index.html', {
-    root: __dirname
-  });
+    res.sendFile('index.html', {
+        root: __dirname
+    });
 });
 //__________________________________________
 const client = new Client({
-  restartOnAuthFail: true,
-  puppeteer: {
-    headless: true,
-    args: [
-      '--no-sandbox',
-      '--disable-setuid-sandbox',
-      '--disable-dev-shm-usage',
-      '--disable-accelerated-2d-canvas',
-      '--no-first-run',
-      '--no-zygote',
-      '--single-process', // <- this one doesn't works in Windows
-      '--disable-gpu'
-    ],
-  },
-  session: sessionCfg
+    restartOnAuthFail: true,
+    puppeteer: {
+        headless: true,
+        args: [
+            '--no-sandbox',
+            '--disable-setuid-sandbox',
+            '--disable-dev-shm-usage',
+            '--disable-accelerated-2d-canvas',
+            '--no-first-run',
+            '--no-zygote',
+            '--single-process', // <- this one doesn't works in Windows
+            '--disable-gpu'
+        ],
+    },
+    session: sessionCfg
 });
 //__________________________________________
 // Socket IO
-io.on('connection', function(socket) {
-  socket.emit('message', 'Connecting...');
+io.on('connection', function (socket) {
+    socket.emit('message', 'Connecting...');
 
-  client.on('qr', (qr) => {
-    console.log('QR RECEIVED', qr);
-    qrcode.toDataURL(qr, (err, url) => {
-      socket.emit('qr', url);
-      socket.emit('message', 'QR Code received, scan please!');
+    client.on('qr', (qr) => {
+        console.log('QR RECEIVED', qr);
+        qrcode.toDataURL(qr, (err, url) => {
+            socket.emit('qr', url);
+            socket.emit('message', 'QR Code received, scan please!');
+        });
     });
-  });
 
-  client.on('ready', () => {
-    socket.emit('ready', 'Whatsapp is ready!');
-    socket.emit('message', 'Whatsapp is ready!');
-  });
-
-  client.on('authenticated', (session) => {
-    socket.emit('authenticated', 'Whatsapp is authenticated!');
-    socket.emit('message', 'Whatsapp is authenticated!');
-    console.log('AUTHENTICATED', session);
-    sessionCfg = session;
-    fs.writeFile(SESSION_FILE_PATH, JSON.stringify(session), function(err) {
-      if (err) {
-        console.error(err);
-      }
+    client.on('ready', () => {
+        socket.emit('ready', 'Whatsapp is ready!');
+        socket.emit('message', 'Whatsapp is ready!');
     });
-  });
 
-  client.on('auth_failure', function(session) {
-    socket.emit('message', 'Auth failure, restarting...');
-  });
-
-  client.on('disconnected', (reason) => {
-    socket.emit('message', 'Whatsapp is disconnected!');
-    fs.unlinkSync(SESSION_FILE_PATH, function(err) {
-        if(err) return console.log(err);
-        console.log('Session file deleted!');
+    client.on('authenticated', (session) => {
+        socket.emit('authenticated', 'Whatsapp is authenticated!');
+        socket.emit('message', 'Whatsapp is authenticated!');
+        console.log('AUTHENTICATED', session);
+        sessionCfg = session;
+        fs.writeFile(SESSION_FILE_PATH, JSON.stringify(session), function (err) {
+            if (err) {
+                console.error(err);
+            }
+        });
     });
-    client.destroy();
-    client.initialize();
-  });
+
+    client.on('auth_failure', function (session) {
+        socket.emit('message', 'Auth failure, restarting...');
+    });
+
+    client.on('disconnected', (reason) => {
+        socket.emit('message', 'Whatsapp is disconnected!');
+        fs.unlinkSync(SESSION_FILE_PATH, function (err) {
+            if (err) return console.log(err);
+            console.log('Session file deleted!');
+        });
+        client.destroy();
+        client.initialize();
+    });
 });
-server.listen(port, function() {
-  console.log('App running on *: ' + port);
+server.listen(port, function () {
+    console.log('App running on *: ' + port);
 });
 
 //___________________________________________
-// MY INFO
-const my_info =
-    "\nAs you had asked for the contact details," +
-    " you can reach out at https://github.com/Kunalvrm555 \n" +
-    "see ya! 😇"
+// // MY INFO
+// const my_info =
+//     "\nAs you had asked for the contact details," +
+//     " you can reach out at https://github.com/Kunalvrm555 \n" +
+//     "see ya! 😇"
 const kunal = '919354817605@c.us' //my contact id
 
 // ___________________________________________________________________________________________
@@ -125,6 +125,15 @@ function check_Admin(message, chat) {
         }
     }
     return isAdmin;
+}
+
+function readModuleFile(path, callback) {
+    try {
+        var filename = require.resolve(path);
+        fs.readFile(filename, 'utf8', callback);
+    } catch (e) {
+        callback(e);
+    }
 }
 
 //___________________________________________________________________________________________//
@@ -312,12 +321,17 @@ async function fun(message, chat) {
             message.reply("I am a chatbot developed by ```Kunal Verma ```😇😇\n" +
                 "to get contact details, send *!kunal* ");
         }
+
+       
         else if (message.body === '!kunal') {
             const contact = await message.getContact()
             const chat = await contact.getChat()
-            chat.sendMessage(`Hey ${contact.pushname}` + my_info)
+            readModuleFile('./my_info.txt', function (err, my_info) {
+                chat.sendMessage(`Hey ${contact.pushname}` + my_info)
+            })
             message.reply("I have sent the details to your inbox 😇 \nPlease check")
         }
+
         else if (message.body === '!leave') {
             if (check_Admin(message, chat)) {
                 await chat.leave();
