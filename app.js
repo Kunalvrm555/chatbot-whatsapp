@@ -101,11 +101,7 @@ server.listen(port, function () {
 });
 
 //___________________________________________
-// // MY INFO
-// const my_info =
-//     "\nAs you had asked for the contact details," +
-//     " you can reach out at https://github.com/Kunalvrm555 \n" +
-//     "see ya! 😇"
+
 const kunal = '919354817605@c.us' //my contact id
 
 // ___________________________________________________________________________________________
