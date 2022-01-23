@@ -268,6 +268,7 @@ async function fun(message, chat) {
                         catch (error) {
                             message.reply("Sorry, I couldn't access the image. Please resend it.")
                             console.log("IMAGE to STICKER conversion error")
+                            socket.emit("IMAGE to STICKER conversion error")
                             // console.log(error)
                         }
 
