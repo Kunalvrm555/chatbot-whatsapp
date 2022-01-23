@@ -1,7 +1,7 @@
 {
-  "name": "whatsapp-api",
+  "name": "chatbot-whatsapp-kunalvrm555",
   "version": "1.0.0",
-  "description": "Whatsapp api by Ngekoding",
+  "description": "Whatsapp API by kunalvrm555",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
@@ -12,7 +12,7 @@
     "whatsapp-api",
     "node.js"
   ],
-  "author": "Nur Muhammad",
+  "author": "Kunal",
   "license": "MIT",
   "dependencies": {
     "axios": "^0.20.0",
@@ -23,7 +23,7 @@
     "mime-types": "^2.1.32",
     "qrcode": "^1.4.4",
     "socket.io": "2.3.0",
-    "whatsapp-web.js": "latest"
+    "whatsapp-web.js": "github:Kunalvrm555/whatsapp-web.js"
   },
   "devDependencies": {
     "nodemon": "^2.0.7"
