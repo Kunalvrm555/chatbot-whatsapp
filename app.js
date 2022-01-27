@@ -260,7 +260,7 @@ async function fun(message, chat) {
                 message.reply("Please tag a message you wish to delete")
             }
         }
-        /* else if (message.body === `!makesticker`) {
+        else if (message.body === `!makesticker`) {
             if (message.hasQuotedMsg) {
 
                 const quotedmsg = await message.getQuotedMessage();
@@ -302,7 +302,7 @@ async function fun(message, chat) {
             const stickerMedia = MessageMedia.fromFilePath('./stickers/' + filename);
             chat.sendMessage(stickerMedia, { sendMediaAsSticker: true });
 
-        } */
+        }
 
         else if (message.body === '!info') {
             message.reply("I am a chatbot developed by ```Kunal Verma ```😇😇\n" +
@@ -387,13 +387,13 @@ async function fun(message, chat) {
             chat.sendMessage(`Hi ${contact.pushname}` + msg)
         }
 
-       /*  else if (message.body === `sticker`) {
+         else if (message.body === `sticker`) {
             var fs = require('fs');
             var files = fs.readdirSync('./stickers')
             let filename = files[Math.floor(Math.random() * files.length)]
-            const stickerMedia = MessageMedia.fromnpFilePath('./stickers/' + filename);
+            const stickerMedia = MessageMedia.fromFilePath('./stickers/' + filename);
             chat.sendMessage(stickerMedia, { sendMediaAsSticker: true });
-        } */
+        }
     }
     // else {}
 
