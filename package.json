@@ -15,14 +15,15 @@
   "author": "Kunal",
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.20.0",
+    "axios": "^0.25.0",
+    "chrome": "^0.1.0",
     "express": "^4.17.1",
     "express-fileupload": "^1.2.0",
     "express-validator": "^6.9.2",
     "http": "0.0.1-security",
     "mime-types": "^2.1.32",
     "qrcode": "^1.4.4",
-    "socket.io": "2.3.0",
+    "socket.io": "^2.4.1",
     "whatsapp-web.js": "github:Kunalvrm555/whatsapp-web.js"
   },
   "devDependencies": {

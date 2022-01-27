@@ -260,7 +260,7 @@ async function fun(message, chat) {
                 message.reply("Please tag a message you wish to delete")
             }
         }
-        else if (message.body === `!makesticker`) {
+        /* else if (message.body === `!makesticker`) {
             if (message.hasQuotedMsg) {
 
                 const quotedmsg = await message.getQuotedMessage();
@@ -292,27 +292,18 @@ async function fun(message, chat) {
 
             else {
                 message.reply("Please tag an image with this command to make a sticker")
-            }
+            } 
 
         }
-        else if (message.body === '!sticker') {
+         else if (message.body === '!sticker') {
             var fs = require('fs');
             var files = fs.readdirSync('./stickers')
             let filename = files[Math.floor(Math.random() * files.length)]
             const stickerMedia = MessageMedia.fromFilePath('./stickers/' + filename);
             chat.sendMessage(stickerMedia, { sendMediaAsSticker: true });
 
-        }
+        } */
 
-        // else if (message.body.startsWith('!sendto ')) {
-        //     // Direct send a new message to specific id
-        //     let number = message.body.split(' ')[1];
-        //     let messageIndex = message.body.indexOf(number) + number.length;
-        //     let mesg = message.body.slice(messageIndex, message.body.length);
-        //     number = number.includes('@c.us') ? number : `${number}@c.us`;
-        //     chat.sendSeen();
-        //     client.sendMessage(number, mesg);
-        // }
         else if (message.body === '!info') {
             message.reply("I am a chatbot developed by ```Kunal Verma ```😇😇\n" +
                 "to get contact details, send *!kunal* ");
@@ -345,10 +336,6 @@ async function fun(message, chat) {
     else {  //PRIVATE CHAT
 
 
-        /* if (message.type === MessageTypes.IMAGE) {
-            console.log('IMAGE RECEIVED');
-        } 
-        */
         const contact = await message.getContact();
 
         const messages = await chat.fetchMessages({ limit: 2 });
@@ -364,10 +351,7 @@ async function fun(message, chat) {
         }
 
         if (_links.length) {
-            // console.log(link[1])
             let invite = _links[0].link
-            // console.log(typeof(str))
-            // console.log(str.link)
             if (invite.includes('chat.whatsapp.com')) {
                 console.log("GROUP INVITE RECEIVED")
             }
@@ -402,48 +386,13 @@ async function fun(message, chat) {
                 "send *sticker* to get a random sticker from my collection or add me on a group to explore other features."
             chat.sendMessage(`Hi ${contact.pushname}` + msg)
         }
-        /* 
-        else if (message.body === `convert to sticker`) {
-            if (message.hasQuotedMsg) {
-                const quotedmsg = await message.getQuotedMessage();
-                if (quotedmsg.type === MessageTypes.IMAGE) {
-                    message.reply("OK 😇😇")
-                    if (quotedmsg.hasMedia) {
-                        const img = await quotedmsg.downloadMedia()
-                        quotedmsg.reply("converting this image")
-                        chat.sendMessage(img, { sendMediaAsSticker: true })
-    
-                    }
-                }
-            }
-        } */
 
-        else if (message.body === `sticker`) {
+       /*  else if (message.body === `sticker`) {
             var fs = require('fs');
             var files = fs.readdirSync('./stickers')
             let filename = files[Math.floor(Math.random() * files.length)]
-            const stickerMedia = MessageMedia.fromFilePath('./stickers/' + filename);
+            const stickerMedia = MessageMedia.fromnpFilePath('./stickers/' + filename);
             chat.sendMessage(stickerMedia, { sendMediaAsSticker: true });
-        }
-        /* else if (message.body.startsWith('!forwardto')) {
-            if (message.hasQuotedMsg) {
-                try {
-                    const quotedmsg = await message.getQuotedMessage();
-                    const mentions = await message.getMentions();
-                    for (let cont of mentions) {
-                        const chat = await cont.getChat()
-                        chat.sendMessage(quotedmsg)
-                    }
-
-                }
-                catch(e)
-                {
-                    console.log('error forwarding message')
-                }
-            }
-            else{
-                message.reply("Please tag a message to be forwarded with this command")
-            }
         } */
     }
     // else {}
@@ -460,7 +409,6 @@ client.on('ready', async () => { //read previously unread messages and respond
 
             }
             await chat.sendSeen()
-            // await chat.sendMessage("Sorry I was offline, took me a while to respond. 😅 ")
         }
 
     }
