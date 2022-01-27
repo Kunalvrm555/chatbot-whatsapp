@@ -318,7 +318,7 @@ async function fun(message, chat) {
                 "to get contact details, send *!kunal* ");
         }
 
-       
+
         else if (message.body === '!kunal') {
             const contact = await message.getContact()
             const chat = await contact.getChat()
@@ -425,6 +425,26 @@ async function fun(message, chat) {
             const stickerMedia = MessageMedia.fromFilePath('./stickers/' + filename);
             chat.sendMessage(stickerMedia, { sendMediaAsSticker: true });
         }
+        /* else if (message.body.startsWith('!forwardto')) {
+            if (message.hasQuotedMsg) {
+                try {
+                    const quotedmsg = await message.getQuotedMessage();
+                    const mentions = await message.getMentions();
+                    for (let cont of mentions) {
+                        const chat = await cont.getChat()
+                        chat.sendMessage(quotedmsg)
+                    }
+
+                }
+                catch(e)
+                {
+                    console.log('error forwarding message')
+                }
+            }
+            else{
+                message.reply("Please tag a message to be forwarded with this command")
+            }
+        } */
     }
     // else {}
 
